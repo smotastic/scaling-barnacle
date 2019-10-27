@@ -15,7 +15,7 @@
       </section>
       <footer class="modal-card-foot">
         <button class="button" type="button" @click="$parent.close()">Schliessen</button>
-        <button class="button is-primary" @click="createRoom">Erstellen</button>
+        <button class="button is-primary" type="button" @click="createRoom">Erstellen</button>
       </footer>
     </div>
   </form>
@@ -33,9 +33,13 @@ export default {
   },
   methods: {
     createRoom() {
-      createRoom(this.roomName, this.roomPassword).then(newRoom => {
-        this.$router.push(`hostroom/${newRoom.name}`);
-      });
+      createRoom(this.roomName, this.roomPassword)
+        .then(success => {
+          console.log(success);
+          this.$router.push({ name: "hostroom", params: { id: success.id } });
+          // this.$router.push(`/hostroom/${success.id}`);
+        })
+        .catch(err => console.err(err));
     }
   }
 };

@@ -13,7 +13,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/hostroom/:name',
+    path: '/hostroom/:id',
     name: 'hostroom',
     component: HostRoom,
     props: true

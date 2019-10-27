@@ -31,7 +31,7 @@
 import { readRoom } from "Facade";
 
 export default {
-  props: ["name"],
+  props: ["id"],
   data: () => {
     return {
       room: {},
@@ -39,7 +39,7 @@ export default {
     };
   },
   mounted() {
-    readRoom(this.name).then(foundRoom => {
+    readRoom(this.id).then(foundRoom => {
       this.room = foundRoom;
     });
   },

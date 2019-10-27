@@ -7,7 +7,7 @@ module.exports = {
     configureWebpack: {
         resolve: {
             alias: {
-                Facade: path.resolve(__dirname, `src/facade/${process.env.VUE_APP_DATABASE}`),                
+                Facade: path.resolve(__dirname, `src/facade/impl/${process.env.VUE_APP_DATABASE}`),                
             }
         }
     }
