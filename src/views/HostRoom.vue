@@ -20,6 +20,10 @@
         <span class="file-name" v-if="file">{{ file.name }}</span>
       </b-field>
     </section>
+        
+    <section class="section">
+      <b-button @click="upload">Upload</b-button>
+    </section>
   </div>
 </template>
 
@@ -35,10 +39,14 @@ export default {
     };
   },
   mounted() {
-    console.log(this.name);
     readRoom(this.name).then(foundRoom => {
       this.room = foundRoom;
     });
+  },
+  methods: {
+    upload() {
+      console.log(this.file);
+    }
   }
 };
 </script>

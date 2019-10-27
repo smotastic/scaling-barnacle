@@ -1,5 +1,5 @@
-import { firestore } from './connection';
+import ICreateRoom from "./crud/createRoom";
+import IReadRoom from "./crud/readRoom";
 
-export const hello = () => {
-    console.log(firestore);
-}
+export const createRoom = ICreateRoom;
+export const readRoom = IReadRoom;
