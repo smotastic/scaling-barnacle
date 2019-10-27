@@ -21,6 +21,7 @@
     "@vue/cli-service": "^4.0.0",
     "babel-eslint": "^10.0.3",
     "buefy": "^0.8.6",
+    "bulmaswatch": "^0.7.5",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-cli-plugin-buefy": "^0.3.7",
