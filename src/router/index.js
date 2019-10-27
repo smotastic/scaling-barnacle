@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import HostRoom from '../views/HostRoom.vue';
+
 
 Vue.use(VueRouter)
 
@@ -10,10 +12,17 @@ const routes = [
     name: 'home',
     component: Home
   },
+  {
+    path: '/hostroom/:name',
+    name: 'hostroom',
+    component: HostRoom,
+    props: true
+  }
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 })
 
 export default router

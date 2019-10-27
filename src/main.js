@@ -5,6 +5,8 @@ import store from './store'
 import Buefy from 'buefy'
 // import 'buefy/dist/buefy.css'
 import 'bulmaswatch/darkly/bulmaswatch.min.css'
+// import 'bulmaswatch/darkly/_variables.scss'
+// import 'bulmaswatch/darkly/_overrides.scss'
 
 Vue.use(Buefy);
 

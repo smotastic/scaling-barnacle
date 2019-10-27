@@ -34,7 +34,7 @@ export default {
   methods: {
     createRoom() {
       createRoom(this.roomName, this.roomPassword).then(newRoom => {
-        console.log(newRoom);
+        this.$router.push(`hostroom/${newRoom.name}`);
       });
     }
   }
