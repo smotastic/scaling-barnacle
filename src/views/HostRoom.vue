@@ -20,7 +20,7 @@
         <span class="file-name" v-if="file">{{ file.name }}</span>
       </b-field>
     </section>
-        
+
     <section class="section">
       <b-button @click="upload">Upload</b-button>
     </section>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { readRoom } from "Service";
+import { readRoom } from "Facade";
 
 export default {
   props: ["name"],

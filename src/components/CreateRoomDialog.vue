@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { createRoom } from "Service";
+import { createRoom } from "Facade";
 
 export default {
   data: () => {
