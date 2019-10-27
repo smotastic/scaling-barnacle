@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { createRoom } from "Service";
+
 export default {
   data: () => {
     return {
@@ -31,8 +33,9 @@ export default {
   },
   methods: {
     createRoom() {
-      console.log(this.roomName);
-      console.log(this.roomPassword);
+      createRoom(this.roomName, this.roomPassword).then(newRoom => {
+        console.log(newRoom);
+      });
     }
   }
 };
