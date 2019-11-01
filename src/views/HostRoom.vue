@@ -37,9 +37,6 @@
           <div class="card" :class="{'active' : file.name === activeFile}">
             <header class="card-header">
               <p class="card-header-title">{{file.name}}</p>
-
-              <!-- <b-button type="is-danger"  icon-right="delete" /> -->
-
               <a @click="deleteMedia(file)" class="card-header-icon">
                 <span class="icon">
                   <i class="delete" aria-hidden="true"></i>

@@ -5,6 +5,7 @@ export const createRoom = FireCrud.createRoom;
 export const readRoom = FireCrud.readRoom;
 export const uploadMedia = FireMedia.uploadMedia;
 export const downloadMedia = FireMedia.downloadMedia;
+export const removeMedia = FireMedia.removeMedia;
 
 const Facade = { ...FireCrud, ...FireMedia }
 
