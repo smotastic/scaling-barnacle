@@ -3,8 +3,15 @@
     <section class="hero">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Raum: {{room.name}}</h1>
-          <h2 class="subtitle">Passwort: {{room.password}}</h2>
+          <div class="columns is-mobile">
+            <div class="column">
+              <h1 class="title">Raum: {{room.name}}</h1>
+              <h2 class="subtitle">Passwort: {{room.password}}</h2>
+            </div>
+            <div class="column">
+              <b-button class="is-pulled-right" @click="closeRoom">Raum schliessen</b-button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -56,7 +63,13 @@
 </template>
 
 <script>
-import { readRoom, uploadMedia, downloadMedia, removeMedia } from "Facade";
+import {
+  readRoom,
+  uploadMedia,
+  deleteRoom,
+  downloadMedia,
+  removeMedia
+} from "Facade";
 
 export default {
   props: ["id"],
@@ -99,6 +112,12 @@ export default {
           .map(file => file.name)
           .indexOf(deletedFileName);
         this.uploadedFiles.splice(indexOfDeletedFile, 1);
+      });
+    },
+    closeRoom() {
+      deleteRoom(this.id).then(id => {
+        console.log("Geloescht", id);
+        this.$router.push("/");
       });
     }
   }

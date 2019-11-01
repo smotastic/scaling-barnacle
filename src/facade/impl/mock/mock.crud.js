@@ -33,6 +33,14 @@ export const readRoom = async (id) => {
     return Promise.resolve(foundRoom || {});
 }
 
+export const deleteRoom = async (id) => {
+    let roomStore = await db.getItem("room");
+    let indexOfRoom = roomStore.map(room => room.id).indexOf(id);
+    roomStore.splice(indexOfRoom, 1);
+    db.setItem("room", roomStore);
+    return Promise.resolve(id);
+}
+
 export default {
-    createRoom, readRoom
+    createRoom, readRoom, deleteRoom
 };
