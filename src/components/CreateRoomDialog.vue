@@ -39,7 +39,7 @@ export default {
           this.$router.push({ name: "hostroom", params: { id: success.id } });
           // this.$router.push(`/hostroom/${success.id}`);
         })
-        .catch(err => console.err(err));
+        .catch(err => console.log(err));
     }
   }
 };

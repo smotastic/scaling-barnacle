@@ -1,6 +1,11 @@
 import MockCrud from './mock.crud';
+import MockMedia from './mock.media';
 
 export const createRoom = MockCrud.createRoom;
 export const readRoom = MockCrud.readRoom;
+export const uploadMedia = MockMedia.uploadMedia;
+export const downloadMedia = MockMedia.downloadMedia;
 
-export default MockCrud;
+const Facade = { ...MockCrud, ...MockMedia }
+
+export default Facade

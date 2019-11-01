@@ -14,12 +14,22 @@ const randomid = () => {
 
 export const createRoom = async (name, password) => {
     let newDoc = { name, password, id: randomid() };
-    db.room.push(newDoc);
+    let roomStore = await db.getItem("room");
+    if (!roomStore) {
+        roomStore = [];
+    }
+    roomStore.push(newDoc);
+    db.setItem("room", roomStore);
     return Promise.resolve(Codes.SUCCESS_CREATE(newDoc.id))
 }
 
-export const readRoom = (id) => {
-    let foundRoom = db.room.find(entry => entry.id === id);
+export const readRoom = async (id) => {
+    let roomStore = await db.getItem("room");
+    if (!roomStore) {
+        roomStore = [];
+        db.setItem("room", roomStore);
+    }
+    let foundRoom = roomStore.find(entry => entry.id === id);
     return Promise.resolve(foundRoom || {});
 }
 

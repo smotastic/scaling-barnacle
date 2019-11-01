@@ -1,5 +1,5 @@
-export default {
-    room: [
-        { id: "A", name: "Room 1", password: "Streng geheimes passwort" }
-    ]
-}
+const localforage = require("localforage");
+
+const store = localforage.createInstance({ name: "barnacle" });
+
+export default store;
