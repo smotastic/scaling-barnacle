@@ -29,7 +29,12 @@ const downloadMedia = async (roomId) => {
 }
 
 const removeMedia = async (roomId, fileName) => {
-    console.log(roomId, fileName);
+    let roomStore = await db.getItem("room");
+    let room = roomStore.find(r => r.id === roomId);
+    let indexOfFileToDelete = room.files.map(file => file.name).indexOf(fileName);
+    room.files.splice(indexOfFileToDelete, 1);
+    db.setItem("room", roomStore);
+    return Promise.resolve(fileName);
 }
 
 export default { uploadMedia, downloadMedia, removeMedia }

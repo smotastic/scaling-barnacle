@@ -97,7 +97,12 @@ export default {
       }
     },
     deleteMedia(file) {
-      removeMedia(this.id, file.name);
+      removeMedia(this.id, file.name).then(deletedFileName => {
+        let indexOfDeletedFile = this.uploadedFiles
+          .map(file => file.name)
+          .indexOf(deletedFileName);
+        this.uploadedFiles.splice(indexOfDeletedFile, 1);
+      });
     }
   }
 };
@@ -106,7 +111,7 @@ export default {
 <style scoped>
 .card.active {
   border-color: #17a689;
-  border-width: 5px;
+  border-width: 4px;
 }
 .card.active > .card-header > p {
   color: #17a689;
