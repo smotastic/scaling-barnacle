@@ -12,13 +12,13 @@ const randomid = () => {
     return [1, 2, 3].map(_ => generatePart()).reduce((prev, curPart) => `${prev}-${curPart}`, generatePart());
 }
 
-const createRoom = async (name, password) => {
+export const createRoom = async (name, password) => {
     let newDoc = { name, password, id: randomid() };
     db.room.push(newDoc);
     return Promise.resolve(Codes.SUCCESS_CREATE(newDoc.id))
 }
 
-const readRoom = (id) => {
+export const readRoom = (id) => {
     let foundRoom = db.room.find(entry => entry.id === id);
     return Promise.resolve(foundRoom || {});
 }

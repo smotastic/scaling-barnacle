@@ -3,7 +3,10 @@ export default {
     return { code: 200, message: "Erfolgreich erstellt", id };
   },
   SUCCESS_UPDATE: doc => {
-    return { code: 200, message: "Erfolgreich aktualisiert", doc };
+    return { code: 201, message: "Erfolgreich aktualisiert", doc };
   },
-  SUCCESS_DELETE: { code: 200, message: "Erfolgreich gelöscht" }
+  SUCCESS_DELETE: { code: 202, message: "Erfolgreich gelöscht" },
+  SUCCESS_UPLOAD: url => {
+    return { code: 203, message: "Erfolgreich hochgeladen", url };
+  }
 }

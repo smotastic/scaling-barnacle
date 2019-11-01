@@ -10,42 +10,65 @@
     </section>
     <!-- Upload Media -->
     <section class="section">
-      <b-field class="file">
-        <b-upload v-model="file">
-          <a class="button is-primary">
-            <b-icon icon="upload"></b-icon>
-            <span>Media hochladen</span>
-          </a>
-        </b-upload>
-        <span class="file-name" v-if="file">{{ file.name }}</span>
-      </b-field>
+      <div class="columns">
+        <div class="column is-narrow">
+          <b-upload v-model="uploadedFile">
+            <a class="button is-primary">
+              <b-icon icon="upload"></b-icon>
+              <span>Media hochladen</span>
+            </a>
+          </b-upload>
+        </div>
+        <div class="column is-narrow">
+          <span class="uploadedFile-name" v-if="uploadedFile">{{ uploadedFile.name }}</span>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-narrow">
+          <b-button @click="upload">Upload</b-button>
+        </div>
+      </div>
     </section>
 
     <section class="section">
-      <b-button @click="upload">Upload</b-button>
+      <div class="columns">
+        <div class="column is-narrow" v-for="(url,index) in uploadedFiles" :key="index">
+          <img width="250px" :src="url" />
+        </div>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
-import { readRoom } from "Facade";
+import { readRoom, uploadMedia, downloadMedia } from "Facade";
 
 export default {
   props: ["id"],
   data: () => {
     return {
       room: {},
-      file: null
+      uploadedFile: null,
+      uploadedFiles: []
     };
   },
   mounted() {
     readRoom(this.id).then(foundRoom => {
       this.room = foundRoom;
+      this.downloadRoom();
     });
   },
   methods: {
     upload() {
-      console.log(this.file);
+      uploadMedia(this.room.id, this.uploadedFile).then(code => {
+        this.uploadedFile = null;
+        this.uploadedFiles.push(code.url);
+      });
+    },
+    downloadRoom() {
+      downloadMedia(this.room.id).then(urls => {
+        this.uploadedFiles = urls;
+      });
     }
   }
 };
