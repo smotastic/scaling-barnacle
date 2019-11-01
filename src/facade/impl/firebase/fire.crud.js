@@ -1,4 +1,4 @@
-import { firestore } from "./connection"
+import { firestore, storage } from "./connection"
 import Codes from "../../utils/constants.codes";
 
 const readRoom = async (id) => {
@@ -8,7 +8,6 @@ const readRoom = async (id) => {
 }
 
 const createRoom = async (name, password) => {
-    console.log(firestore);
     let newRoomDoc = { name, password };
     let newDoc = {};
     try {
@@ -19,6 +18,18 @@ const createRoom = async (name, password) => {
     return Promise.resolve(Codes.SUCCESS_CREATE(newDoc.id))
 }
 
+const deleteRoom = async (id) => {
+    // delete doc
+    await firestore.collection("room").doc(id).delete();
+    // delete media
+    let ref = storage.ref();
+    let folderRef = ref.child(id);
+    let res = await folderRef.listAll();
+    await res.items.map(item => item.name).forEach(async fileName => await folderRef.child(fileName).delete());
+
+    return Promise.resolve(id);
+}
+
 export default {
-    createRoom, readRoom
+    createRoom, readRoom, deleteRoom
 };

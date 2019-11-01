@@ -115,8 +115,8 @@ export default {
       });
     },
     closeRoom() {
+      // eslint-disable-next-line
       deleteRoom(this.id).then(id => {
-        console.log("Geloescht", id);
         this.$router.push("/");
       });
     }

@@ -11,7 +11,7 @@ const uploadMedia = async (roomId, file) => {
 
 const downloadMedia = async (roomId) => {
     let storageRef = storage.ref();
-    let listRef = storageRef.child(`${roomId}`);
+    let listRef = storageRef.child(roomId);
     let res = await listRef.listAll();
     return Promise.all(res.items.map(async item => ({ name: item.name, url: await item.getDownloadURL() })));
 }
