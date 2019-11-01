@@ -6,7 +6,7 @@ export default {
     return { code: 201, message: "Erfolgreich aktualisiert", doc };
   },
   SUCCESS_DELETE: { code: 202, message: "Erfolgreich gelöscht" },
-  SUCCESS_UPLOAD: url => {
-    return { code: 203, message: "Erfolgreich hochgeladen", url };
+  SUCCESS_UPLOAD: file => {
+    return { code: 203, message: "Erfolgreich hochgeladen", file };
   }
 }

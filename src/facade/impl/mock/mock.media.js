@@ -15,9 +15,10 @@ const uploadMedia = async (roomId, file) => {
         room.files = [];
     }
     let base64File = await toBase64(file);
-    room.files.push(base64File);
+    let newFile = { name: file.name, url: base64File };
+    room.files.push(newFile);
     db.setItem("room", roomStore);
-    return Codes.SUCCESS_UPLOAD(base64File);
+    return Codes.SUCCESS_UPLOAD(newFile);
 }
 
 // eslint-disable-next-line
@@ -27,4 +28,8 @@ const downloadMedia = async (roomId) => {
     return Promise.resolve(room.files || []);
 }
 
-export default { uploadMedia, downloadMedia }
+const removeMedia = async (roomId, fileName) => {
+    console.log(roomId, fileName);
+}
+
+export default { uploadMedia, downloadMedia, removeMedia }

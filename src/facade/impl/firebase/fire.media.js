@@ -13,8 +13,7 @@ const downloadMedia = async (roomId) => {
     let storageRef = storage.ref();
     let listRef = storageRef.child(`${roomId}`);
     let res = await listRef.listAll();
-    console.log(res.items);
-    return Promise.all(res.items.map(item => item.getDownloadURL()));
+    return Promise.all(res.items.map(item => { item.name, item.getDownloadURL() }));
 }
 
 export default { uploadMedia, downloadMedia }

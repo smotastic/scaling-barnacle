@@ -25,15 +25,33 @@
       </div>
       <div class="columns">
         <div class="column is-narrow">
-          <b-button @click="upload">Upload</b-button>
+          <b-button @click="upload" :disabled="!uploadedFile">Upload</b-button>
         </div>
       </div>
     </section>
 
+    <!-- MEDIA CARD -->
     <section class="section">
       <div class="columns">
-        <div class="column is-narrow" v-for="(url,index) in uploadedFiles" :key="index">
-          <img width="250px" :src="url" />
+        <div class="column is-one-quarter" v-for="(file,index) in uploadedFiles" :key="index">
+          <div class="card" :class="{'active' : file.name === activeFile}">
+            <header class="card-header">
+              <p class="card-header-title">{{file.name}}</p>
+
+              <!-- <b-button type="is-danger"  icon-right="delete" /> -->
+
+              <a @click="deleteMedia(file)" class="card-header-icon">
+                <span class="icon">
+                  <i class="delete" aria-hidden="true"></i>
+                </span>
+              </a>
+            </header>
+            <div class="card-image" @click="showMedia(file)" style="cursor:pointer">
+              <figure class="image is-4by3">
+                <img :src="file.url" />
+              </figure>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -41,7 +59,7 @@
 </template>
 
 <script>
-import { readRoom, uploadMedia, downloadMedia } from "Facade";
+import { readRoom, uploadMedia, downloadMedia, removeMedia } from "Facade";
 
 export default {
   props: ["id"],
@@ -49,7 +67,8 @@ export default {
     return {
       room: {},
       uploadedFile: null,
-      uploadedFiles: []
+      uploadedFiles: [],
+      activeFile: null
     };
   },
   mounted() {
@@ -62,14 +81,34 @@ export default {
     upload() {
       uploadMedia(this.room.id, this.uploadedFile).then(code => {
         this.uploadedFile = null;
-        this.uploadedFiles.push(code.url);
+        this.uploadedFiles.push({ url: code.file.url, name: code.file.name });
       });
     },
     downloadRoom() {
-      downloadMedia(this.room.id).then(urls => {
-        this.uploadedFiles = urls;
+      downloadMedia(this.room.id).then(files => {
+        this.uploadedFiles = files;
       });
+    },
+    showMedia(file) {
+      if (file.name === this.activeFile) {
+        this.activeFile = null;
+      } else {
+        this.activeFile = file.name;
+      }
+    },
+    deleteMedia(file) {
+      removeMedia(this.id, file.name);
     }
   }
 };
 </script>
+
+<style scoped>
+.card.active {
+  border-color: #17a689;
+  border-width: 5px;
+}
+.card.active > .card-header > p {
+  color: #17a689;
+}
+</style>
