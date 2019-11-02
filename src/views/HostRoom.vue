@@ -68,7 +68,8 @@ import {
   uploadMedia,
   deleteRoom,
   downloadMedia,
-  removeMedia
+  removeMedia,
+  executeUploadListener
 } from "Facade";
 
 export default {
@@ -100,10 +101,14 @@ export default {
       });
     },
     showMedia(file) {
+      // already selected
       if (file.name === this.activeFile) {
         this.activeFile = null;
-      } else {
+      }
+      // show media to participants
+      else {
         this.activeFile = file.name;
+        executeUploadListener(this.id, file);
       }
     },
     deleteMedia(file) {

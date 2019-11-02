@@ -8,6 +8,8 @@ export const deleteRoom = MockCrud.deleteRoom;
 export const uploadMedia = MockMedia.uploadMedia;
 export const downloadMedia = MockMedia.downloadMedia;
 export const removeMedia = MockMedia.removeMedia;
+export const listenToUpload = MockMedia.listenToUpload;
+export const executeUploadListener = MockMedia.executeUploadListener;
 
 const Facade = { ...MockCrud, ...MockMedia }
 

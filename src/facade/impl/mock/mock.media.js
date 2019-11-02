@@ -37,4 +37,13 @@ const removeMedia = async (roomId, fileName) => {
     return Promise.resolve(fileName);
 }
 
-export default { uploadMedia, downloadMedia, removeMedia }
+const listenToUpload = async (roomId, listener) => {
+    console.log(roomId, listener);
+}
+
+const executeUploadListener = async (roomId, file) => {
+    console.log(roomId, file);
+}
+
+
+export default { uploadMedia, downloadMedia, removeMedia, listenToUpload, executeUploadListener }
