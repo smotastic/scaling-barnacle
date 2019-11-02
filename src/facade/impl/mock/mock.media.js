@@ -38,11 +38,30 @@ const removeMedia = async (roomId, fileName) => {
 }
 
 const listenToUpload = async (roomId, listener) => {
-    console.log(roomId, listener);
+    let roomStore = await db.getItem("room");
+    let room = roomStore.find(r => r.id === roomId);
+    // execute listener for each already shown media
+    if (room.seenFiles) {
+        room.seenFiles.forEach(element => {
+            listener(element);
+        });
+    }
+    // listeners are not registered for mocking as callbacks cannot be serialized with localforage
 }
 
 const executeUploadListener = async (roomId, file) => {
-    console.log(roomId, file);
+    // save shown file in seen list
+    let roomStore = await db.getItem("room");
+    let room = roomStore.find(r => r.id === roomId);
+    if (!room.seenFiles) {
+        room.seenFiles = []
+    }
+    let alreadySeen = room.seenFiles.find(seenFile => file.name === seenFile.name);
+    if (!alreadySeen) {
+        room.seenFiles.push(file);
+    }
+    db.setItem("room", roomStore);
+    // listeners do not exist for mocking as callbacks cannot be serialized with localforage
 }
 
 
