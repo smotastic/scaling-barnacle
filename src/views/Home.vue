@@ -7,6 +7,9 @@
       <div class="column is-narrow">
         <b-button type="is-primary" @click="isEnterRoomDialog = true">Raum beitreten</b-button>
       </div>
+      <div class="column is-narrow">
+        <b-button type="is-danger" v-if="isMock" @click="clearMockingDb">Clean DB</b-button>
+      </div>
     </div>
 
     <b-modal
@@ -44,6 +47,16 @@ export default {
   data: () => {
     return { isCreateRoomDialog: false, isEnterRoomDialog: false };
   },
-  methods: {}
+  computed: {
+    isMock() {
+      return process.env.VUE_APP_DATABASE === "mock";
+    }
+  },
+  methods: {
+    clearMockingDb() {
+      let storage = require("../facade/impl/mock/db");
+      storage.default.clear();
+    }
+  }
 };
 </script>
