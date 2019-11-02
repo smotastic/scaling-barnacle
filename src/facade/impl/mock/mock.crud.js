@@ -33,6 +33,16 @@ export const readRoom = async (id) => {
     return Promise.resolve(foundRoom || {});
 }
 
+export const findRoomByName = async (name) => {
+    let roomStore = await db.getItem("room");
+    if (!roomStore) {
+        roomStore = [];
+        db.setItem("room", roomStore);
+    }
+    let foundRoom = roomStore.find(entry => entry.name === name);
+    return Promise.resolve(foundRoom);
+}
+
 export const deleteRoom = async (id) => {
     let roomStore = await db.getItem("room");
     let indexOfRoom = roomStore.map(room => room.id).indexOf(id);
@@ -42,5 +52,5 @@ export const deleteRoom = async (id) => {
 }
 
 export default {
-    createRoom, readRoom, deleteRoom
+    createRoom, readRoom, deleteRoom, findRoomByName
 };

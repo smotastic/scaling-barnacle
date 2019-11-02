@@ -7,6 +7,12 @@ const readRoom = async (id) => {
     return result;
 }
 
+const findRoomByName = async (name) => {
+    let snapshot = await firestore.collection("room").where("name", "==", name).get();
+    let foundRoom = snapshot.docs.find(doc => name === doc.data().name);
+    return foundRoom ? { id: foundRoom.id, ...foundRoom.data() } : undefined;
+}
+
 const createRoom = async (name, password) => {
     let newRoomDoc = { name, password };
     let newDoc = {};
@@ -31,5 +37,5 @@ const deleteRoom = async (id) => {
 }
 
 export default {
-    createRoom, readRoom, deleteRoom
+    createRoom, readRoom, deleteRoom, findRoomByName
 };

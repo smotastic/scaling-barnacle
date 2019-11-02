@@ -14,14 +14,20 @@
         </b-field>
       </section>
       <footer class="modal-card-foot">
-        <button class="button" type="button" @click="$parent.close()">Schliessen</button>
-        <button class="button is-primary" @click="enterRoom">Betreten</button>
+        <b-button class="button" type="button" @click="$parent.close()">Schliessen</b-button>
+        <b-button
+          class="button is-primary"
+          type="button"
+          @click="enterRoom"
+          :disabled="!roomName"
+        >Betreten</b-button>
       </footer>
     </div>
   </form>
 </template>
 
 <script>
+import { findRoomByName } from "Facade";
 export default {
   data: () => {
     return {
@@ -31,8 +37,20 @@ export default {
   },
   methods: {
     enterRoom() {
-      console.log(this.roomName);
-      console.log(this.roomPassword);
+      findRoomByName(this.roomName).then(foundRoom => {
+        if (foundRoom) {
+          if (foundRoom.password === this.roomPassword) {
+            this.$router.push({
+              name: "joinroom",
+              params: { id: foundRoom.id }
+            });
+          } else {
+            console.log("Falsches Passwort");
+          }
+        } else {
+          console.log("Kein Raum gefunden");
+        }
+      });
     }
   }
 };
