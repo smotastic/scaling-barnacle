@@ -1,4 +1,4 @@
-import { storage } from "./connection"
+import { storage, firestore } from "./connection"
 import Codes from "../../utils/constants.codes";
 
 const uploadMedia = async (roomId, file) => {
@@ -24,11 +24,25 @@ const removeMedia = async (roomId, fileName) => {
 }
 
 const listenToUpload = async (roomId, listener) => {
-    console.log(roomId, listener);
+    let alreadyExistingDocs = await firestore.collection("room_seenFiles").where("roomId", "==", roomId);
+    let detachListener = alreadyExistingDocs.onSnapshot(snapshot => {
+        snapshot.docChanges().forEach(change => {
+            if (change.type === "added") {
+                listener(change.doc.data());
+            }
+        });
+    });
+    return detachListener;
 }
 
 const executeUploadListener = async (roomId, file) => {
-    console.log(roomId, file);
+    let collection = await firestore.collection("room_seenFiles");
+    let alreadyExistingDocs = await collection.where("roomId", "==", roomId).where("filename", "==", file.name).get();
+    // file not existing, create it, so others can see it
+    if (alreadyExistingDocs.empty) {
+        let newFileToListenTo = { roomId, filename: file.name, url: file.url };
+        await collection.add(newFileToListenTo);
+    }
 }
 
 export default { uploadMedia, downloadMedia, removeMedia, listenToUpload, executeUploadListener }

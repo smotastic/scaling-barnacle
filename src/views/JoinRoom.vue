@@ -46,7 +46,10 @@ export default {
     readRoom(this.id).then(foundRoom => {
       this.room = foundRoom;
     });
-    listenToUpload(this.id, file => this.seenFiles.push(file));
+    listenToUpload(this.id, file => {
+      console.log(file);
+      this.seenFiles.push(file)
+    });
   }
 };
 </script>
