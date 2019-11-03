@@ -83,7 +83,13 @@ export default {
       let db = {};
       storage.default
         .iterate(function(value, key) {
-          db[key] = value;
+          db[key] = value.map(e => {
+            let ret = {};
+            for (key in e) {
+              ret[key] = e[key].toString();
+            }
+            return ret;
+          });
         })
         .then(() => {
           this.mockedDb = JSON.stringify(db, null, "\t");
