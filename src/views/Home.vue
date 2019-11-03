@@ -1,14 +1,25 @@
 <template>
   <div class="container" style="height:100%">
-    <div class="columns is-vcentered is-centered is-multiline is-mobile" style="height:100%">
+    <div class="columns is-vcentered is-centered is-multiline is-mobile" style="height:100vh">
       <div class="column is-narrow">
-        <b-button type="is-primary" @click="isCreateRoomDialog = true">Raum erstellen</b-button>
-      </div>
-      <div class="column is-narrow">
-        <b-button type="is-primary" @click="isEnterRoomDialog = true">Raum beitreten</b-button>
-      </div>
-      <div class="column is-narrow">
-        <b-button type="is-danger" v-if="isMock" @click="clearMockingDb">Clean DB</b-button>
+        <div class="columns is-centered">
+          <div class="column is-narrow">
+            <b-button type="is-primary" @click="isCreateRoomDialog = true">Raum erstellen</b-button>
+          </div>
+          <div class="column is-narrow">
+            <b-button type="is-primary" @click="isEnterRoomDialog = true">Raum beitreten</b-button>
+          </div>
+        </div>
+        <div v-if="isMock" class="columns is-centered">
+          <div class="column is-narrow">
+            <b-button type="is-danger" @click="clearMockingDb">Clean DB</b-button>
+          </div>
+        </div>
+        <div v-if="isMock" class="columns is-centered">
+          <div class="column is-narrow">
+            <pre>{{mockedDb}}</pre>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -45,7 +56,16 @@ export default {
     EnterRoomDialog
   },
   data: () => {
-    return { isCreateRoomDialog: false, isEnterRoomDialog: false };
+    return {
+      isCreateRoomDialog: false,
+      isEnterRoomDialog: false,
+      mockedDb: ""
+    };
+  },
+  mounted() {
+    if (this.isMock) {
+      this.calcMockingDb();
+    }
   },
   computed: {
     isMock() {
@@ -56,6 +76,18 @@ export default {
     clearMockingDb() {
       let storage = require("../facade/impl/mock/db");
       storage.default.clear();
+      this.calcMockingDb();
+    },
+    calcMockingDb() {
+      let storage = require("../facade/impl/mock/db");
+      let db = {};
+      storage.default
+        .iterate(function(value, key) {
+          db[key] = value;
+        })
+        .then(() => {
+          this.mockedDb = JSON.stringify(db, null, "\t");
+        });
     }
   }
 };
